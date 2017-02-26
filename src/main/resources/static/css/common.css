@@ -1,0 +1,11 @@
+.hoverTable tr:hover {
+	background-color: #fff999;
+}
+
+.deleteBtn {
+	margin-left: 5px;
+}
+
+#errorMessage {
+	display: none;
+}
