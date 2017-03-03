@@ -43,7 +43,7 @@ public class UserController {
 		return "redirect:/users";
 	}
 
-	@RequestMapping(value = "/users/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/users/delete/{id}", method = RequestMethod.DELETE)
 	public String deleteUser(@PathVariable Long id) {
 		if (id == null) {
 			return "error";
@@ -60,14 +60,10 @@ public class UserController {
 		return "editUser";
 	}
 
-	@RequestMapping(value = "/editUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/editUser", method = RequestMethod.PUT)
 	public String updateUser(@ModelAttribute UserDto userDto) {
-		if (userService.findByEmail(userDto.getEmail()) != null) {
-			return "error";
-		}
-
 		UserDto findByEmail = userService.findByEmail(userDto.getEmail());
-		if (findByEmail != null && !findByEmail.equals(userDto)) {
+		if (findByEmail == null || !findByEmail.equals(userDto)) {
 			return "error";
 		}
 

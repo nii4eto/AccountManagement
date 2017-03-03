@@ -36,6 +36,7 @@
 			<div class="col-md-6">
 				<form action="#" th:action="@{/editUser}" th:object="${userDto}"
 					method="post">
+					<input type="hidden" name="_method" value="put"/>
 					<!-- 					<div class="alert alert-danger" id="errorMessage"></div> -->
 					<input type="hidden" name="id" th:field="*{id}" />
 					<div class="form-group">
@@ -51,7 +52,7 @@
 
 					</div>
 					<div class="form-group">
-						<label>Email</label> <input name="email" type="text"
+						<label>Email</label> <input name="email" type="text" readonly="readonly"
 							th:field="*{email}" class="form-control" placeholder="Email"
 							required="required" />
 					</div>
