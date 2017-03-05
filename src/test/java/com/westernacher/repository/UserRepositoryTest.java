@@ -48,7 +48,7 @@ public class UserRepositoryTest {
 		persistUserIntoEntityManager();
 		user.setFirstName("Ivan");
 		user.setLastName("Petrov");
-		userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getDateOfBirth());
+		userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getDateOfBirth(), user.getPassword());
 		Optional<UserEntity> returnedUser = userRepository.findByEmail("fakeUser@gmail.com");
 		if(!returnedUser.isPresent())
 			fail();

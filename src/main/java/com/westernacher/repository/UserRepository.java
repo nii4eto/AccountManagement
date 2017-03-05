@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
 	@Modifying
 	@Transactional
-	@Query("UPDATE UserEntity u SET u.firstName = :firstName, u.lastName = :lastName, u.dateOfBirth = :date WHERE u.id = :id")
+	@Query("UPDATE UserEntity u SET u.firstName = :firstName, u.lastName = :lastName, u.dateOfBirth = :date, u.password = :password WHERE u.id = :id")
 	void updateUser(@Param("id") Long id, @Param("firstName") String firstName,
-			@Param("lastName") String lastName, @Param("date") LocalDate dateOfBirth);
+			@Param("lastName") String lastName, @Param("date") LocalDate dateOfBirth, @Param("password") String password);
 }

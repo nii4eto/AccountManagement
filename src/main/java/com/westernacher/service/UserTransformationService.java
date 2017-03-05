@@ -1,6 +1,7 @@
 package com.westernacher.service;
 
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -17,6 +18,11 @@ public class UserTransformationService {
 		userDTO.setLastName(user.getLastName());
 		userDTO.setDateOfBirth(user.getDateOfBirth().toString());
 		userDTO.setEmail(user.getEmail());
+		userDTO.setPassword(user.getPassword());
+		
+		userDTO.setBooks(user.getBooks().stream()
+				.map(book -> BookTransformationService.transformBookEntityToBookDto(book))
+				.collect(Collectors.toSet()));
 
 		return userDTO;
 	}
@@ -29,7 +35,21 @@ public class UserTransformationService {
 		user.setLastName(userDto.getLastName());
 		user.setDateOfBirth(StringUtils.isNotBlank(userDto.getDateOfBirth()) ? LocalDate.parse(userDto.getDateOfBirth()) : null);
 		user.setEmail(userDto.getEmail());
+		
+		user.setPassword(userDto.getPassword());
+		
+		if(StringUtils.isNotBlank(userDto.getNewPassword())) {
+			user.setPassword(userDto.getNewPassword());
+		}
+		
+		user.setBooks(userDto.getBooks().stream()
+				.map(bookDto -> BookTransformationService.trasformBookDtoToBook(bookDto))
+				.collect(Collectors.toSet()));
 
+//		StandardPasswordEncoder encoder = new StandardPasswordEncoder("secret");
+//		user.setPassword( encoder.encode(userDto.getPassword()));
+		
+		user.setEnabled(true);
 		return user;
 	}
 }

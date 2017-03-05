@@ -2,10 +2,20 @@
 	background-color: #fff999;
 }
 
+.table-responsive {
+	overflow-x: hidden; 
+}
+
 .deleteBtn {
 	margin-left: 5px;
 }
 
 #errorMessage {
 	display: none;
+}
+
+.logoutClass {
+	width: 50px;
+	float: right;
+	margin-top: 10px;
 }

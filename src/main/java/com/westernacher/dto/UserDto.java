@@ -1,5 +1,7 @@
 package com.westernacher.dto;
 
+import java.util.Set;
+
 import javax.validation.constraints.Size;
 
 public class UserDto {
@@ -15,6 +17,17 @@ public class UserDto {
 	private String email;
 
 	private String dateOfBirth;
+
+	@Size(min = 5, max = 255)
+	private String password;
+
+	@Size(min = 5, max = 255)
+	private String newPassword;
+
+	@Size(min = 5, max = 255)
+	private String confirmPassword;
+	
+	private Set<BookDto> books;
 
 	public Long getId() {
 		return id;
@@ -55,25 +68,56 @@ public class UserDto {
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
+	
+	public Set<BookDto> getBooks() {
+		return books;
+	}
 
-		if (obj == null || getClass() != obj.getClass())
-			return false;
-
-		UserDto user = (UserDto) obj;
-
-		if (!id.equals(user.id))
-			return false;
-
-		return true;
+	public void setBooks(Set<BookDto> books) {
+		this.books = books;
 	}
 
 	@Override
 	public int hashCode() {
-		return id != null ? id.hashCode() : 0;
+		int hash = 0;
+		hash += (id != null ? id.hashCode() : 0);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object object) {
+		if (!(object instanceof UserDto)) {
+			return false;
+		}
+		UserDto other = (UserDto) object;
+		if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+			return false;
+		}
+		return true;
 	}
 }

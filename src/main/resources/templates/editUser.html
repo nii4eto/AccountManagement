@@ -10,6 +10,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/common.css" />
 </head>
 
 <body>
@@ -26,6 +27,8 @@
 				<ul class="nav navbar-nav">
 					<li><a href="/users">All Accounts</a></li>
 					<li><a href="/createUser">Create user</a></li>
+					<li><a href="/books">Books</a></li>
+					<li><a href="/addBook">Add Book</a></li>
 				</ul>
 			</div>
 		</div>
@@ -36,30 +39,42 @@
 			<div class="col-md-6">
 				<form action="#" th:action="@{/editUser}" th:object="${userDto}"
 					method="post">
-					<input type="hidden" name="_method" value="put"/>
+					<input type="hidden" name="_method" value="put" />
 					<!-- 					<div class="alert alert-danger" id="errorMessage"></div> -->
 					<input type="hidden" name="id" th:field="*{id}" />
 					<div class="form-group">
 						<label>First name</label> <input name="firstName" type="text"
-							th:field="*{firstName}" class="form-control"
+							maxlength="45" th:field="*{firstName}" class="form-control"
 							placeholder="First name" required="required" />
 					</div>
 					<div class="form-group">
 
 						<label>First name</label> <input name="lastName" type="text"
-							th:field="*{lastName}" class="form-control"
+							maxlength="45" th:field="*{lastName}" class="form-control"
 							placeholder="Last name" required="required" />
 
 					</div>
 					<div class="form-group">
-						<label>Email</label> <input name="email" type="text" readonly="readonly"
-							th:field="*{email}" class="form-control" placeholder="Email"
-							required="required" />
+						<label>Email</label> <input name="email" type="text"
+							readonly="readonly" th:field="*{email}" class="form-control"
+							placeholder="Email" required="required" />
 					</div>
 					<div class="form-group">
 						<label>Birthdate</label> <input name="dateOfBirth" type="date"
 							th:field="*{dateOfBirth}" class="form-control"
 							placeholder="Birthdate" required="required" />
+					</div>
+
+					<div class="form-group">
+						<label>New Password</label> <input name="password" type="password"
+							maxlength="45" th:field="*{newPassword}" class="form-control"
+							placeholder="New Password" />
+					</div>
+
+					<div class="form-group">
+						<label>Confirm password</label> <input name="confirmPassword" type="password"
+							th:field="*{confirmPassword}" class="form-control"
+							placeholder="Confirm Password" />
 					</div>
 					<button type="submit" class="btn btn-success" id="createUser">Submit</button>
 					<a class="btn btn-primary" href="/users">Cancel</a>

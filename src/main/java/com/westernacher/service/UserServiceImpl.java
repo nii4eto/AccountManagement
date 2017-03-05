@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	public UserDto saveUser(UserDto userDto) {
 		UserEntity user = UserTransformationService.trasformUserDtoToUser(userDto);
 		userRepository.save(user);
-
+		
 		return userDto;
 	}
 
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto updateUser(UserDto userDto) {
 		UserEntity user = UserTransformationService.trasformUserDtoToUser(userDto);
-		userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getDateOfBirth());
+		userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getDateOfBirth(), user.getPassword());
 		
 		return userDto;
 	}
@@ -69,7 +69,8 @@ public class UserServiceImpl implements UserService {
 	public List<UserDto> findAllUsers() {
 		List<UserEntity> allUsersEntities = userRepository.findAll();
 
-		return allUsersEntities.stream().map(user -> UserTransformationService.transformUserEntityToUserDto(user))
+		return allUsersEntities.stream()
+				.map(user -> UserTransformationService.transformUserEntityToUserDto(user))
 				.collect(Collectors.toList());
 	}
 

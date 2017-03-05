@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Accounts</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../../css/common.css" />
+</head>
+<body>
+
+	<nav class="navbar navbar-default">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Accounts</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="/users">All Accounts</a></li>
+					<li><a href="/createUser">Create user</a></li>
+					<li><a href="/books">Books</a></li>
+					<li><a href="/addBook">Add Book</a></li>
+				</ul>
+
+				<p class="navbar-text navbar-right">
+				<form th:action="@{/logout}" method="post" class="logoutClass">
+					<input class="btn btn-info" type="submit" value="Logout" />
+				</form>
+
+				</p>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="table-responsive">
+			<table class="table table-bordered hoverTable" id="booksTable">
+				<thead>
+					<tr>
+						<th class="col-md-2">ISBN</th>
+						<th class="col-md-3">Name</th>
+						<th class="col-md-3">Author</th>
+						<th class="col-md-1">Year</th>
+						<th class="col-md-1">Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each="book: ${books}">
+						<tr>
+							<td th:text="${book.isbn}"></td>
+							<td th:text="${book.name}"></td>
+							<td th:text="${book.author}"></td>
+							<td th:text="${book.year}"></td>
+							<td th:text="${book.quantity}"></td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

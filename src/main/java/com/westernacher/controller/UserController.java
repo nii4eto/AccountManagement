@@ -2,6 +2,7 @@ package com.westernacher.controller;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +65,14 @@ public class UserController {
 	public String updateUser(@ModelAttribute UserDto userDto) {
 		UserDto findByEmail = userService.findByEmail(userDto.getEmail());
 		if (findByEmail == null || !findByEmail.equals(userDto)) {
+			return "error";
+		}
+		
+		if(StringUtils.isNotBlank(userDto.getNewPassword()) && StringUtils.isBlank(userDto.getConfirmPassword())) {
+			return "error";
+		}
+		
+		if(StringUtils.isNotBlank(userDto.getNewPassword()) && !userDto.getNewPassword().equals(userDto.getConfirmPassword())) {
 			return "error";
 		}
 
