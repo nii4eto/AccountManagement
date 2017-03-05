@@ -29,6 +29,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-security")
 	compile('org.apache.commons:commons-lang3:3.5')
 	compile('com.google.code.gson:gson:2.8.0')
 	compile('javax.inject:javax.inject:1')
