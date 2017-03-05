@@ -11,6 +11,8 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/common.css" />
+
+<script src="js/function.js"></script>
 </head>
 <body>
 
@@ -43,6 +45,13 @@
 
 	<div class="container">
 
+		<div class="row">
+			<div class="col-md-1"><label style="margin-top: 5px;">Search: </label> </div>
+			<div class="col-md-3"><input type="text" id="searchField" onkeyup="searchFilter();"
+			class="form-control" placeholder="Search for names.." /></div>
+		</div>
+		<br />
+		
 		<div class="table-responsive">
 			<table class="table table-bordered hoverTable" id="booksTable">
 				<thead>
