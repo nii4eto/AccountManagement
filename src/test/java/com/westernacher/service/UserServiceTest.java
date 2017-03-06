@@ -47,7 +47,7 @@ public class UserServiceTest {
 	
 	@Test
 	public void testFindByEmail() {
-		UserEntity user = UserTransformationService.trasformUserDtoToUser(prepareUser(EMAIL));
+		UserEntity user = UserMapperService.mapToEntity(prepareUser(EMAIL));
 		
 		when(this.userRepository.findByEmail(EMAIL)).thenReturn(Optional.of(user));
 		

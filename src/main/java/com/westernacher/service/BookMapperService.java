@@ -7,9 +7,9 @@ import org.apache.commons.lang3.StringUtils;
 import com.westernacher.dto.BookDto;
 import com.westernacher.entity.BookEntity;
 
-public class BookTransformationService {
+public class BookMapperService {
 
-	public static BookDto transformBookEntityToBookDto(BookEntity book) {
+	public static BookDto mapToDto(BookEntity book) {
 		BookDto bookDto = new BookDto();
 		
 		bookDto.setId(book.getId());
@@ -22,7 +22,7 @@ public class BookTransformationService {
 		return bookDto;
 	}
 
-	public static BookEntity trasformBookDtoToBook(BookDto bookDto) {
+	public static BookEntity mapToEntity(BookDto bookDto) {
 		BookEntity book = new BookEntity();
 		
 		book.setId(bookDto.getId());

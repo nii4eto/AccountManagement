@@ -28,10 +28,11 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public BookDto saveBook(BookDto bookDto) {
-		BookEntity book = BookTransformationService.trasformBookDtoToBook(bookDto);
-		bookRepository.save(book);
+		BookEntity book = BookMapperService.mapToEntity(bookDto);
+		BookEntity savedBook = bookRepository.save(book);
+		
 
-		return bookDto;
+		return BookMapperService.mapToDto(savedBook);
 	}
 
 	@Override
@@ -41,14 +42,14 @@ public class BookServiceImpl implements BookService {
 			return null;
 		}
 
-		BookDto bookDto = prepareBookDto(book.get());
+		BookDto bookDto = BookMapperService.mapToDto(book.get());
 		return bookDto;
 	}
 
 	@Override
 	public BookDto findById(Long id) {
 		BookEntity book = bookRepository.findOne(id);
-		BookDto bookDto = prepareBookDto(book);
+		BookDto bookDto = (book != null) ? BookMapperService.mapToDto(book) : new BookDto();
 		return bookDto;
 	}
 
@@ -60,23 +61,17 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public List<BookDto> findAllBooks() {
-		List<BookEntity> allBooksEntities = bookRepository.findAll();
-		
-		return allBooksEntities.stream()
-				.map(book -> BookTransformationService.transformBookEntityToBookDto(book))
+		return bookRepository.findAll().stream()
+				.map(BookMapperService::mapToDto)
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public BookDto updateBookQuantity(BookDto bookDto) {
-		BookEntity book = BookTransformationService.trasformBookDtoToBook(bookDto);
+		BookEntity book = BookMapperService.mapToEntity(bookDto);
 		bookRepository.updateBookQuantity(book.getId(), book.getQuantity());
 		
 		return bookDto;
 	}
 
-	private BookDto prepareBookDto(BookEntity book) {
-		BookDto bookDto = (book != null) ? BookTransformationService.transformBookEntityToBookDto(book) : null;
-		return bookDto;
-	}
 }

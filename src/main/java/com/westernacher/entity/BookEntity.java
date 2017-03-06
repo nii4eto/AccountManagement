@@ -15,6 +15,13 @@ import javax.persistence.Table;
 
 import com.westernacher.converter.LocalDateAttributeConverter;
 
+/**
+ * 
+ * @author Nia
+ * 
+ *	The purpose of this class is to
+ *	create a book entity
+ */
 @Entity
 @Table(name = "book")
 public class BookEntity {
@@ -103,21 +110,21 @@ public class BookEntity {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+
+		if (obj == null || getClass() != obj.getClass()){
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
+		}
+
 		BookEntity other = (BookEntity) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
+		if (id == null && other.id != null) {
+			return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (isbn == null) {
-			if (other.isbn != null)
-				return false;
+		if (isbn == null && other.isbn != null) {
+			return false;
 		} else if (!isbn.equals(other.isbn))
 			return false;
 		return true;

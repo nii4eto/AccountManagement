@@ -9,9 +9,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.westernacher.dto.UserDto;
 import com.westernacher.entity.UserEntity;
 
-public class UserTransformationService {
+public class UserMapperService {
 	
-	public static UserDto transformUserEntityToUserDto(UserEntity user) {
+	public static UserDto mapToDto(UserEntity user) {
 		UserDto userDTO = new UserDto();
 		
 		userDTO.setId(user.getId());
@@ -22,13 +22,13 @@ public class UserTransformationService {
 		userDTO.setPassword(user.getPassword());
 		
 		userDTO.setBooks(user.getBooks().stream()
-				.map(book -> BookTransformationService.transformBookEntityToBookDto(book))
+				.map(book -> BookMapperService.mapToDto(book))
 				.collect(Collectors.toSet()));
 
 		return userDTO;
 	}
 
-	public static UserEntity trasformUserDtoToUser(UserDto userDto) {
+	public static UserEntity mapToEntity(UserDto userDto) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
 		UserEntity user = new UserEntity();
@@ -49,7 +49,7 @@ public class UserTransformationService {
 		
 		if(userDto.getBooks() != null) {
 			user.setBooks(userDto.getBooks().stream()
-					.map(bookDto -> BookTransformationService.trasformBookDtoToBook(bookDto))
+					.map(bookDto -> BookMapperService.mapToEntity(bookDto))
 					.collect(Collectors.toSet()));
 		}
 		

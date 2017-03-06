@@ -2,6 +2,7 @@ package com.westernacher.service;
 
 import java.util.List;
 
+import com.westernacher.dto.BookDto;
 import com.westernacher.dto.UserDto;
 
 public interface UserService {
@@ -16,4 +17,6 @@ public interface UserService {
 	List<UserDto> findAllUsers();
 	
 	UserDto updateUser(UserDto userDto);
+	
+	BookDto addRemoveBookToUser(BookDto bookDto, UserDto userDto);
 }

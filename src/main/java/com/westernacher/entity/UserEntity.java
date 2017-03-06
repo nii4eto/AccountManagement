@@ -18,6 +18,13 @@ import javax.persistence.Table;
 
 import com.westernacher.converter.LocalDateAttributeConverter;
 
+/**
+ * 
+ * @author Nia
+ * 
+ *	The purpose of this class is to
+ *	create a book entity
+ */
 @Entity
 @Table(name = "user")
 public class UserEntity {

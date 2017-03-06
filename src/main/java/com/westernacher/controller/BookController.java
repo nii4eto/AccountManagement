@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.westernacher.dto.BookDto;
 import com.westernacher.service.BookService;
 
+/**
+ * 
+ * @author Nia
+ * The purpose of this class is to
+ * manage books' functionalities
+ */
 @Controller
 public class BookController {
 
@@ -34,7 +40,7 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/addBook", method = RequestMethod.POST)
-	public String createUser(@ModelAttribute BookDto bookDto) {
+	public String addBook(@ModelAttribute BookDto bookDto) {
 		if (bookService.findByIsbn(bookDto.getIsbn()) != null) {
 			return "error";
 		}

@@ -1,6 +1,5 @@
 package com.westernacher.controller;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,12 @@ import com.westernacher.dto.UserDto;
 import com.westernacher.service.BookService;
 import com.westernacher.service.UserService;
 
+/**
+ * 
+ * @author Nia
+ * The purpose of this class is to
+ * manage add/remove books to logged user
+ */
 @Controller
 public class UserBookController {
 
@@ -26,36 +31,30 @@ public class UserBookController {
 	@Autowired
 	private UserService userService;
 	
-	
+	/**
+	 * The purpose of this method is to 
+	 * add new book to user or remove (return) already reserved book
+	 */
 	@RequestMapping(value = "/userbooks/add/{id}", method = RequestMethod.GET)
-	public String getBookForUser(@PathVariable Long id) {
+	public String addRemoveBookToUser(@PathVariable Long id) {
 		BookDto bookDto = bookService.findById(id);
-		Integer currentQuantity = bookDto.getQuantity();
 		
 		User currentUser =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		UserDto userDto = userService.findByEmail(currentUser.getUsername());
 		
-		Set<BookDto> books = userDto.getBooks() == null ? new HashSet<>() : userDto.getBooks();
-		
-		if(books.contains(bookDto)) {
-			books.remove(bookDto);
-			bookDto.setQuantity(++currentQuantity);
-		} else {
-			books.add(bookDto);
-			bookDto.setQuantity(--currentQuantity);
-		}
-		
-		userDto.setBooks(books);
-		
-		userService.saveUser(userDto);
+		bookDto = userService.addRemoveBookToUser(bookDto, userDto);
 		bookService.updateBookQuantity(bookDto);
 		
 		return "redirect:/books";
 	}
 	
+	/**
+	 * Populates all books that are added to logged user
+	 *
+	 */
 	@RequestMapping(value = { "/userbooks/list/{id}" }, method = RequestMethod.GET)
-	public String goHome(Model model, @PathVariable Long id) {
+	public String populateAllBooksForUser(Model model, @PathVariable Long id) {
 		UserDto userDto = userService.findById(id);
 		
 		Set<BookDto> books = userDto.getBooks();

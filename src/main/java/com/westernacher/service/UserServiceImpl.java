@@ -1,7 +1,9 @@
 package com.westernacher.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import com.westernacher.dto.BookDto;
 import com.westernacher.dto.UserDto;
 import com.westernacher.entity.UserEntity;
 import com.westernacher.repository.UserRepository;
@@ -28,10 +31,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto saveUser(UserDto userDto) {
-		UserEntity user = UserTransformationService.trasformUserDtoToUser(userDto);
-		userRepository.save(user);
+		UserEntity user = UserMapperService.mapToEntity(userDto);
+		UserEntity savedUser = userRepository.save(user);
 		
-		return userDto;
+		return UserMapperService.mapToDto(savedUser);
 	}
 
 	@Override
@@ -41,14 +44,14 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 
-		UserDto userDto = prepareUserDto(user.get());
+		UserDto userDto = UserMapperService.mapToDto(user.get());
 		return userDto;
 	}
 
 	@Override
 	public UserDto findById(Long id) {
 		UserEntity user = userRepository.findOne(id);
-		UserDto userDto = prepareUserDto(user);
+		UserDto userDto = (user != null) ? UserMapperService.mapToDto(user) : new UserDto();
 		return userDto;
 	}
 
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto updateUser(UserDto userDto) {
-		UserEntity user = UserTransformationService.trasformUserDtoToUser(userDto);
+		UserEntity user = UserMapperService.mapToEntity(userDto);
 		userRepository.updateUser(user.getId(), user.getFirstName(), user.getLastName(), user.getDateOfBirth(), user.getPassword());
 		
 		return userDto;
@@ -67,15 +70,28 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserDto> findAllUsers() {
-		List<UserEntity> allUsersEntities = userRepository.findAll();
 
-		return allUsersEntities.stream()
-				.map(user -> UserTransformationService.transformUserEntityToUserDto(user))
+		return userRepository.findAll().stream()
+				.map(UserMapperService::mapToDto)
 				.collect(Collectors.toList());
 	}
-
-	private UserDto prepareUserDto(UserEntity user) {
-		UserDto userDto = (user != null) ? UserTransformationService.transformUserEntityToUserDto(user) : null;
-		return userDto;
+	
+	@Override
+	public BookDto addRemoveBookToUser(BookDto bookDto, UserDto userDto) {
+		Set<BookDto> books = userDto.getBooks() == null ? new HashSet<>() : userDto.getBooks();
+		Integer currentQuantity = bookDto.getQuantity();
+		
+		if(books.contains(bookDto)) {
+			books.remove(bookDto);
+			bookDto.setQuantity(++currentQuantity);
+		} else {
+			books.add(bookDto);
+			bookDto.setQuantity(--currentQuantity);
+		}
+		
+		userDto.setBooks(books);
+		saveUser(userDto);
+		
+		return bookDto;
 	}
 }
